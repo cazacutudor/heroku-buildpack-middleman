@@ -3,8 +3,8 @@
 BUILD_DIR=$1
 
 # check if ruby app
-if [ -f $BUILD_DIR/Gemfile ]; then
-  echo "Ruby"
+if [ -f $BUILD_DIR/docs/Gemfile ]; then
+  echo "Ruby middleman docs found"
   exit 0
 else
   exit 1

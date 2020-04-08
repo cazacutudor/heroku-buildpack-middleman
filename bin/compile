@@ -8,12 +8,15 @@ indent() {
   sed -u 's/^/       /'
 }
 
-echo "-----> Found a ruby app"
+echo "-----> Initialize docs"
 
-# if hello.txt is empty, abort the build
-if [ ! -s $BUILD_DIR/Gemfile ]; then
-  echo "Gemfile is empty" | indent
+# if docs Gemfile is empty abort
+if [ ! -s $BUILD_DIR/docs/Gemfile ]; then
+  echo "docs Gemfile is empty" | indent
   exit 1
 else
-  gem install middleman
+  echo "Install NodeJs" | indent
+  apt-get install -y nodejs
+  echo "Install docs dependencies" | indent
+  bundle install --path /app/vendor/bundle --binstubs /app/vendor/bundle/bin --gemfile=/app/docs/Gemfile -j4
 fi
