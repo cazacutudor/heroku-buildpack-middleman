@@ -1,0 +1,19 @@
+#!/bin/sh
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+echo "-----> Found a ruby app"
+
+# if hello.txt is empty, abort the build
+if [ ! -s $BUILD_DIR/Gemfile ]; then
+  echo "Gemfile is empty" | indent
+  exit 1
+else
+  gem install middleman
+fi
