@@ -30,7 +30,7 @@ else
   apt-get $APT_OPTIONS install --force-yes -y nodejs | indent
 
   echo "Remove docs BUNDLED WITH from Gemfile.lock" | indent
-  sed "s/BUNDLED WITH//g" /app/docs/Gemfile.lock
+  sed -r ':begin;$!N;s/(BUNDLED WITH)\n.+//;tbegin;P;D' /app/docs/Gemfile.lock
 
   echo "Install docs dependencies" | indent
   bundle install --path /app/vendor/bundle --binstubs /app/vendor/bundle/bin --gemfile=/app/docs/Gemfile -j4
