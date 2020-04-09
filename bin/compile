@@ -4,6 +4,11 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+APT_CACHE_DIR="$CACHE_DIR/apt/cache"
+APT_STATE_DIR="$CACHE_DIR/apt/state"
+
+APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
+
 indent() {
   sed -u 's/^/       /'
 }
@@ -15,8 +20,13 @@ if [ ! -s $BUILD_DIR/docs/Gemfile ]; then
   echo "docs Gemfile is empty" | indent
   exit 1
 else
-  echo "Install NodeJs" | indent
-  apt-get install -y nodejs
+  echo "Install nodejs" | indent
+
+  mkdir -p "$APT_CACHE_DIR/archives/partial"
+  mkdir -p "$APT_STATE_DIR/lists/partial"
+
+  apt-get $APT_OPTIONS update | indent
+  apt-get $APT_OPTIONS install -y nodejs | indent
 
   echo "Remove docs BUNDLED WITH from Gemfile.lock" | indent
   sed "s/BUNDLED WITH//g" /app/docs/Gemfile.lock
