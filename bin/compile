@@ -22,11 +22,12 @@ if [ ! -s $BUILD_DIR/docs/Gemfile ]; then
 else
   echo "Install nodejs" | indent
 
+  rm -rf $APT_CACHE_DIR
   mkdir -p "$APT_CACHE_DIR/archives/partial"
   mkdir -p "$APT_STATE_DIR/lists/partial"
 
   apt-get $APT_OPTIONS update | indent
-  apt-get $APT_OPTIONS install -y nodejs | indent
+  apt-get $APT_OPTIONS install --force-yes -y nodejs | indent
 
   echo "Remove docs BUNDLED WITH from Gemfile.lock" | indent
   sed "s/BUNDLED WITH//g" /app/docs/Gemfile.lock
