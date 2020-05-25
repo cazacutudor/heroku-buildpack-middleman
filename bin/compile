@@ -17,6 +17,4 @@ if [ ! -s $BUILD_DIR/docs/Gemfile ]; then
 else
   echo "Add middleman gem to Gemfile" | indent
   sed -i -r "7i gem 'middleman', '~>4.3'" /app/Gemfile
-
-  bundle install
 fi
